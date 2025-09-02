@@ -1,0 +1,74 @@
+BANNER-GRABBING-IN-PYTHON3
+
+This script connects to a service on a specified port and retrieves its banner (e.g., FTP, TCP, SSH, etc.), allowing you to see the service information.
+
+⚠️ For educational purposes only • Developed by M!ss s3c
+
+📝 Guide: Creating and Running Your First Banner Grabber in Python
+
+1. Create the script file
+
+In the terminal, create the file:
+
+nano banner.py
+
+2. Add the Python code
+
+Paste the following code:
+
+#!/usr/bin/python3
+# Educational Banner Grabber in Python
+# Usage: python3 banner.py
+
+import socket
+
+# Request IP and port
+ip = input("Enter the IP: ")
+port = int(input("Enter the port: "))
+
+# Create TCP socket
+meusocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+meusocket.settimeout(3)  # avoid hanging
+
+# Connect to the service
+try:
+    meusocket.connect((ip, port))
+    banner = meusocket.recv(1024)  # receive banner
+    print(f"Received banner: {banner.decode().strip()}")
+except Exception as e:
+    print(f"Connection error: {e}")
+finally:
+    meusocket.close()
+
+
+⚠️ Note: This script should not be used on unauthorized systems. It is intended for educational purposes only.
+
+3. Give execution permission (optional)
+chmod +x banner.py
+
+4. Run the script
+python3 banner.py
+
+5. Example output
+Enter the IP: 127.0.0.1
+Enter the port: 21
+Received banner: 220 (vsFTPd 3.0.3)
+
+
+Or:
+
+Enter the IP: 127.0.0.1
+Enter the port: 22
+Received banner: SSH-2.0-OpenSSH_8.9p1 Debian-3
+
+👉 What you learned here
+
+socket.socket() → creates a TCP socket.
+
+connect() → connects to the specified IP and port.
+
+recv(1024) → receives data from the service (the banner).
+
+settimeout() → prevents hanging on unresponsive services.
+
+Always close() the socket → releases system resources.
